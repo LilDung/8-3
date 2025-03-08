@@ -1,0 +1,197 @@
+<!DOCTYPE html>
+<html lang="vi">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Đố Vui Tuổi Thơ</title>
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+            background-color: #5072A7;
+            color: white;
+            text-align: center;
+            padding: 20px;
+            position: relative;
+        }
+        .quiz-container {
+            background: #073980;
+            padding: 20px;
+            border-radius: 10px;
+            width: 60%;
+            margin: auto;
+            box-shadow: 0px 0px 10px rgba(255, 255, 255, 0.2);
+        }
+        .question {
+            font-size: 20px;
+            margin-bottom: 15px;
+        }
+        .question span {
+            text-decoration: none;
+            cursor: pointer;
+            color: inherit;
+        }
+        .options {
+            display: flex;
+            flex-direction: column;
+            gap: 10px;
+        }
+        .option {
+            background: white;
+            color: black;
+            padding: 10px;
+            border-radius: 5px;
+            cursor: pointer;
+            transition: background 0.3s;
+        }
+        .option:hover {
+            background: #ffcc00;
+        }
+        .popup {
+            display: none;
+            position: fixed;
+            top: 80%;
+            left: 50%;
+            width: 250px;
+            font-size: 22px;
+            transform: translate(-50%, -50%);
+            background: white;
+            color: black;
+            padding: 30px;
+            border-radius: 10px;
+            box-shadow: 0px 0px 10px rgba(0, 0, 0, 0.5);
+        }
+        .correct-popup {
+            display: none;
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background: rgba(0, 0, 0, 0.8);
+            color: white;
+            flex-direction: column;
+            align-items: center;
+            justify-content: center;
+            font-size: 30px;
+        }
+        .button-container {
+            display: flex;
+            flex-direction: row;
+            justify-content: center;
+            gap: 20px;
+            margin-top: 20px;
+        }
+        .correct-popup button, .hint-popup button {
+            padding: 10px 20px;
+            font-size: 20px;
+            cursor: pointer;
+            border: none;
+            background: #ffcc00;
+            border-radius: 5px;
+        }
+        .pig {
+            display: none;
+            position: absolute;
+            top: 40px;
+            left: 120px;
+            width: 800px;
+            animation: shake 0.5s infinite;
+        }
+        @keyframes shake {
+            0%, 100% { transform: rotate(0deg); }
+            25% { transform: rotate(-10deg); }
+            50% { transform: rotate(10deg); }
+            75% { transform: rotate(-10deg); }
+        }
+    </style>
+</head>
+<body>
+    <h1>CHÚC MỪNG NGÀY 8/3</h1>
+    <div class="quiz-container">
+        <div class="question"><span onclick="correctAnswer()">NGƯỜI YÊU TUYỆT VỜI CỦA EM</span> sẽ tặng món quà nào cho bạn nhân ngày 8/3?</div>
+        <div class="options">
+            <div class="option" onclick="checkAnswer()">A. Hoa quả 🍇</div>
+            <div class="option" onclick="checkAnswer()">B. Đồ ăn vặt 🍕</div>
+            <div class="option" onclick="checkAnswer()">C. Hoa 💐</div>
+            <div class="option" onclick="checkAnswer()">D. Tiền 💵</div>
+        </div>
+        <div style="
+              margin-top: 20px;
+              padding: 15px 30px;
+              background: linear-gradient(135deg, #ff9a9e, #fad0c4);
+              border-radius: 15px;
+              text-align: center;
+              font-size: 22px;
+              font-weight: bold;
+              color: white;
+              box-shadow: 0 4px 10px rgba(0, 0, 0, 0.2);
+              animation: fadeIn 1.5s ease-in-out;
+              display: inline-block;
+          ">
+              From Luu Dung with love 💖
+          </div>
+
+<style>
+    @keyframes fadeIn {
+        from {
+            opacity: 0;
+            transform: translateY(-10px);
+        }
+        to {
+            opacity: 1;
+            transform: translateY(0);
+        }
+    }
+</style>
+
+    </div>
+    <div id="popup" class="popup">Sai rồiiiii!</div>
+    <div id="hint-popup" class="correct-popup" style="display: none;">
+        Có vẻ em vẫn chưa hiểu anh đâu 😒. Em có cần gợi ý không?
+        <div class="button-container">
+            <button onclick="showHint()">Không hiểu người yêu</button>
+            <button onclick="restartGame()">Hiểu người yêu =)))</button>
+        </div>
+    </div>
+    <div id="hint-reveal" class="correct-popup" style="display: none;">
+        MÓN QUÀ TUYỆT VỜI NHẤT NGƯỜI YÊU CỦA EM CÓ THỂ TẶNG CHO BẠN LÀ GÌ??? 😘
+        <img src="https://media4.giphy.com/media/v1.Y2lkPTc5MGI3NjExem1lZjVscTM0ZW5mbHk4OTNweDV1dXIzNjU4OThqNWw4aTRlZjd4MiZlcD12MV9pbnRlcm5hbF9naWZfYnlfaWQmY3Q9Zw/d3mlE7uhX8KFgEmY/giphy.gif" alt="Hint Image">
+        <button onclick="restartGame()">Tôi hiểu rồi!!</button>
+    </div>
+    <div id="correct-popup" class="correct-popup" style="display: none;">
+        Chính xác! Anh là món quà lớn nhất của em! ❤️ phần thưởng giành cho em  là tất cả các món quà mà em đã trả lời sai =))) đi học vê thì nhận quà nhé. 8/3 mà phải đi học :v nonnn. Anh yêu emmmm 😘 chúc em mãi bên cạnh anh!!!
+        <img src = "https://media.giphy.com/media/v1.Y2lkPTc5MGI3NjExNzJoYm1sbXpia3U3bmE4cjZxaWNsY2NibHM4dGtsZHV4a3FsdzdzMCZlcD12MV9naWZzX3NlYXJjaCZjdD1n/3ohze3kG5qO9DcTUbe/giphy.gif" alt =  "Correct Image">
+        <button onclick="restartGame()">Chơi lại</button>
+    </div>
+    <img id="pig" class="pig" src="https://media4.giphy.com/media/v1.Y2lkPTc5MGI3NjExcWp1djkyemYzc2ZtenF5a3ZtOTJxdGlwdTc1YTI0ZjBwNzkwa2loZiZlcD12MV9pbnRlcm5hbF9naWZfYnlfaWQmY3Q9Zw/5Zesu5VPNGJlm/giphy.gif" alt="Pig shaking head">
+    
+    <script>
+        let wrongCount = 0;
+        function checkAnswer() {
+            wrongCount++;
+            document.getElementById('popup').style.display = 'block';
+            document.getElementById('pig').style.display = 'block';
+            setTimeout(() => {
+                document.getElementById('popup').style.display = 'none';
+                document.getElementById('pig').style.display = 'none';
+                if (wrongCount >= 4) {
+                    document.getElementById('hint-popup').style.display = 'flex'; // Thay đổi từ 'block' thành 'flex'
+                }
+            }, 3000);
+        }
+        function showHint() {
+            document.getElementById('hint-popup').style.display = 'none';
+            document.getElementById('hint-reveal').style.display = 'flex';
+        }
+        function correctAnswer() {
+            document.getElementById('correct-popup').style.display = 'flex';
+        }
+        function restartGame() {
+            wrongCount = 0;
+            document.getElementById('hint-popup').style.display = 'none';
+            document.getElementById('hint-reveal').style.display = 'none';
+            document.getElementById('correct-popup').style.display = 'none';
+        }
+    </script>
+</body>
+</html>
